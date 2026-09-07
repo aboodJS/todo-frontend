@@ -1,7 +1,7 @@
 <template>
   <main class="flex">
     <section
-      class="w-2/4 h-screen grid content-evenly justify-center text-white bg-[#17161a]"
+      class="w-2/5 h-screen grid content-evenly justify-center text-white bg-[#17161a]"
     >
       <div class="grid">
         <h1 class="font-extrabold text-3xl w-3/4 justify-self-center">
@@ -13,16 +13,36 @@
         </p>
       </div>
     </section>
-    <section class="w-2/4 h-screen grid content-evenly justify-center">
-      <form action="">
-        <div>
+    <section
+      class="w-3/5 h-screen grid content-evenly justify-center bg-[#f6f5f2]"
+    >
+      <form class="grid h-72 content-evenly" action="">
+        <div class="grid">
+          <h3 class="text-lg font-bold">Sign in</h3>
+          <p>Welcome back. Let’s see what’s open.</p>
+        </div>
+        <div class="grid">
           <label for="email">EMAIL</label>
-          <input type="email" name="email" />
+          <input
+            class="bg-[#ffffff] border rounded-sm border-[#2f6f4f]"
+            type="email"
+            name="email"
+          />
         </div>
-        <div>
+        <div class="grid">
           <label for="passwd">PASSWORD</label>
-          <input type="password" name="passwd" id="" />
+          <input
+            class="bg-[#ffffff] border rounded-sm border-[#2f6f4f]"
+            type="password"
+            name="passwd"
+            id=""
+          />
         </div>
+        <input
+          class="bg-[#2f6f4f] text-white rounded-md py-3"
+          type="submit"
+          value="Sign in"
+        />
       </form>
     </section>
   </main>
