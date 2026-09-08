@@ -18,7 +18,7 @@
     >
       <form class="grid h-72 gap-6 content-evenly" action="">
         <div class="grid">
-          <h3 class="text-lg font-bold">Sign in</h3>
+          <h3 class="text-lg font-bold">Sign up</h3>
           <p class="text-[#79756d]">Welcome back. Let’s see what’s open.</p>
         </div>
         <div class="grid">
@@ -42,13 +42,25 @@
             id=""
           />
         </div>
+
+        <div class="grid">
+          <label class="text-[#79756d] text-xs font-bold" for="passwd"
+            >CONFIRM PASSWORD</label
+          >
+          <input
+            class="bg-[#ffffff] p-1 border rounded-sm border-[#e5e7eb] outline-0 focus:outline-[#cad1c5]"
+            type="password"
+            name="passwd"
+            id=""
+          />
+        </div>
         <input
           class="bg-[#2f6f4f] text-white rounded-md py-3"
           type="submit"
-          value="Sign in"
+          value="Sign up"
         />
         <p class="text-center">
-          don't have an account? <RouterLink to="/signup">Sign up</RouterLink>
+          already have an account? <RouterLink to="/">Sign in</RouterLink>
         </p>
       </form>
     </section>
