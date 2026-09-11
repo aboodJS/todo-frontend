@@ -1,3 +1,5 @@
+<script setup></script>
+
 <template>
   <main class="flex">
     <section
@@ -16,10 +18,20 @@
     <section
       class="w-3/5 h-screen grid content-evenly justify-center bg-[#f6f5f2]"
     >
-      <form class="grid h-72 gap-6 content-evenly" action="">
+      <form method="post" class="grid h-72 gap-6 content-evenly">
         <div class="grid">
           <h3 class="text-lg font-bold">Sign up</h3>
           <p class="text-[#79756d]">Welcome back. Let’s see what’s open.</p>
+        </div>
+        <div class="grid">
+          <label class="text-[#79756d] text-xs font-bold" for="username"
+            >USERNAME</label
+          >
+          <input
+            class="bg-[#ffffff] p-1 border rounded-sm border-[#e5e7eb] outline-0 focus:outline-[#cad1c5]"
+            type="text"
+            name="username"
+          />
         </div>
         <div class="grid">
           <label class="text-[#79756d] text-xs font-bold" for="email"
@@ -57,6 +69,7 @@
         <input
           class="bg-[#2f6f4f] text-white rounded-md py-3"
           type="submit"
+          formaction="http://localhost:3000/signup"
           value="Sign up"
         />
         <p class="text-center">
