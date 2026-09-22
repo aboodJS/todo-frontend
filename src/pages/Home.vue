@@ -1,7 +1,7 @@
 <template>
-  <main class="flex">
+  <main class="flex max-md:grid">
     <section
-      class="w-2/5 h-screen grid content-evenly justify-center text-white bg-[#17161a]"
+      class="md:w-2/5 max-md:h-[40vh] h-screen grid content-evenly justify-center text-white bg-[#17161a]"
     >
       <div class="grid">
         <h1 class="font-extrabold text-3xl w-3/4 justify-self-center">
@@ -14,21 +14,21 @@
       </div>
     </section>
     <section
-      class="w-3/5 h-screen grid content-evenly justify-center bg-[#f6f5f2]"
+      class="md:w-3/5 md:h-screen max-md:h-[60vh] grid content-evenly justify-center bg-[#f6f5f2]"
     >
-      <form class="grid h-72 gap-6 content-evenly" action="">
+      <form class="grid md:h-72 gap-6 content-evenly" method="POST">
         <div class="grid">
           <h3 class="text-lg font-bold">Sign in</h3>
           <p class="text-[#79756d]">Welcome back. Let’s see what’s open.</p>
         </div>
         <div class="grid">
-          <label class="text-[#79756d] text-xs font-bold" for="email"
-            >EMAIL</label
+          <label class="text-[#79756d] text-xs font-bold" for="username"
+            >USERNAME</label
           >
           <input
             class="bg-[#ffffff] p-1 border rounded-sm border-[#e5e7eb] outline-0 focus:outline-[#cad1c5]"
-            type="email"
-            name="email"
+            type="text"
+            name="username"
           />
         </div>
         <div class="grid">
@@ -43,6 +43,7 @@
           />
         </div>
         <input
+          formaction="http://localhost:3000/login"
           class="bg-[#2f6f4f] text-white rounded-md py-3"
           type="submit"
           value="Sign in"
