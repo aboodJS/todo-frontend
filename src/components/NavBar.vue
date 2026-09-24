@@ -1,5 +1,5 @@
 <script setup>
-const isLoggedIn = localStorage.getItem("jwt") ? true : false;
+const isLoggedIn = localStorage.getItem("token") ? true : false;
 </script>
 
 <template>
