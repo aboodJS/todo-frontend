@@ -1,22 +1,26 @@
 <script setup>
 import { useTemplateRef } from "vue";
+import { router } from "../routes";
 
 const name = useTemplateRef("username");
 const pass = useTemplateRef("password");
 async function sendLoginData() {
   const data = await fetch("http://localhost:3000/login", {
     method: "POST",
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
-      credentials: "include",
+      "Access-Control-Allow-Origin": "http://localhost:5173",
     },
     body: JSON.stringify({
-      username: name.value,
-      passwd: pass.value,
+      username: name.value.value,
+      passwd: pass.value.value,
     }),
   })
     .then((j) => j.json())
-    .then((d) => console.log(d));
+    .then((d) => localStorage.setItem("jwt", JSON.parse(d).token))
+    .then(router.push("/"))
+    .catch((err) => err);
 }
 </script>
 

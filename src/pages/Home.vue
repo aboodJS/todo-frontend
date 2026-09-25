@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import NavBar from "../components/NavBar.vue";
 
-const isLoggedIn = localStorage.getItem("jwt") ? true : false;
+const isLoggedIn = localStorage.getItem("jwt") !== null ? true : false;
 </script>
 
 <template>
