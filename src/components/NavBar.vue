@@ -1,5 +1,10 @@
 <script setup>
-const isLoggedIn = localStorage.getItem("token") ? true : false;
+const isLoggedIn = localStorage.getItem("jwt") ? true : false;
+
+function signout() {
+  localStorage.removeItem("jwt");
+  location.reload();
+}
 </script>
 
 <template>
@@ -14,7 +19,7 @@ const isLoggedIn = localStorage.getItem("token") ? true : false;
       >
     </div>
     <div v-else>
-      <button>Signout</button>
+      <button @click="signout">Signout</button>
     </div>
   </nav>
 </template>

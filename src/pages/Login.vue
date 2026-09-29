@@ -21,6 +21,7 @@ async function sendLoginData() {
     .then((d) => localStorage.setItem("jwt", JSON.parse(d).token))
     .then(router.push("/"))
     .catch((err) => err);
+  location.reload();
 }
 </script>
 
