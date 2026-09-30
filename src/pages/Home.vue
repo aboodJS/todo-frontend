@@ -1,25 +1,33 @@
 <script setup lang="ts">
-import { useTemplateRef } from "vue";
+import { onMounted, useTemplateRef, ref, onBeforeMount } from "vue";
 import NavBar from "../components/NavBar.vue";
+import LIstItem from "../components/LIstItem.vue";
+
 const dialog = useTemplateRef("taskAddDialog");
 const title = useTemplateRef("title");
 const desc = useTemplateRef("desc");
+const isLoggedIn = localStorage.getItem("jwt") !== null ? true : false;
+
+const todos = ref([]);
 
 async function grabTasks() {
-  const request = await fetch("http://localhost:3000/todos", {
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-      Authentication: `Bearer ${localStorage.getItem("jwt")}`,
-    },
-  })
-    .then((j) => j.json())
-    .then((d) => d)
-    .catch((err) => err);
-  console.log(request);
+  if (isLoggedIn) {
+    const request = await fetch("http://localhost:3000/todos", {
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        Authentication: `Bearer ${localStorage.getItem("jwt")}`,
+      },
+    })
+      .then((j) => j.json())
+      .then((d) => d)
+      .catch((err) => err);
+    console.log(request);
+    todos.value = request.todos;
+  } else {
+    return 0;
+  }
 }
-
-grabTasks();
 
 async function sendTask() {
   const request = await fetch("http://localhost:3000/todos", {
@@ -41,7 +49,10 @@ async function sendTask() {
   location.reload();
 }
 
-const isLoggedIn = localStorage.getItem("jwt") !== null ? true : false;
+onBeforeMount(async () => {
+  await grabTasks();
+  console.log(todos.value);
+});
 </script>
 
 <template>
@@ -50,10 +61,18 @@ const isLoggedIn = localStorage.getItem("jwt") !== null ? true : false;
     <p class="self-center justify-self-center" v-if="isLoggedIn === false">
       please login to view your tasks
     </p>
-    <section class="grid justify-center content-center" v-else>
+    <section class="grid relative content-start" v-else>
+      <section class="grid grid-cols-2 w-screen gap-3 row-auto">
+        <LIstItem
+          v-for="task in todos"
+          :title="task.title"
+          :description="task.description"
+        ></LIstItem>
+      </section>
       <button
-        class="bg-[#2f6f4f] text-white rounded-md py-3 px-3"
+        class="bg-[#2f6f4f] z-10 fixed top-[90%] left-3 text-white rounded-md py-3 px-3"
         @click="() => dialog?.showModal()"
+        title
       >
         add task
       </button>
@@ -79,7 +98,8 @@ const isLoggedIn = localStorage.getItem("jwt") !== null ? true : false;
           <button @click="sendTask">send task</button>
           <button
             @click="
-              () => {
+              async () => {
+                console.log(await grabTasks());
                 dialog?.close();
               }
             "

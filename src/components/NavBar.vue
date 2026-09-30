@@ -9,7 +9,7 @@ function signout() {
 
 <template>
   <nav
-    class="flex h-[10vh] w-screen items-center justify-between fixed top-0 text-white bg-black text-2xl"
+    class="flex h-[10vh] w-screen items-center justify-between sticky mb-2 top-0 text-white bg-black text-2xl"
   >
     <h3 class="font-extrabold px-3">notes</h3>
     <div v-if="isLoggedIn === false" class="flex px-3 gap-3">
