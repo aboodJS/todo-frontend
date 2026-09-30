@@ -5,6 +5,22 @@ const dialog = useTemplateRef("taskAddDialog");
 const title = useTemplateRef("title");
 const desc = useTemplateRef("desc");
 
+async function grabTasks() {
+  const request = await fetch("http://localhost:3000/todos", {
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+      Authentication: `Bearer ${localStorage.getItem("jwt")}`,
+    },
+  })
+    .then((j) => j.json())
+    .then((d) => d)
+    .catch((err) => err);
+  console.log(request);
+}
+
+grabTasks();
+
 async function sendTask() {
   const request = await fetch("http://localhost:3000/todos", {
     method: "POST",
