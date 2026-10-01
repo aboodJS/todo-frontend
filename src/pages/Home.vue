@@ -29,6 +29,24 @@ async function grabTasks() {
   }
 }
 
+async function deleteTask(id) {
+  await fetch("http://localhost:3000/delete_todo", {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+      Authentication: `Bearer ${localStorage.getItem("jwt")}`,
+    },
+    body: JSON.stringify({
+      taskId: id,
+    }),
+  })
+    .then((d) => d.json())
+    .then((d) => d)
+    .catch((err) => console.log(err));
+  location.reload();
+}
+
 async function sendTask() {
   const request = await fetch("http://localhost:3000/todos", {
     method: "POST",
@@ -67,12 +85,25 @@ onBeforeMount(async () => {
           v-for="task in todos"
           :title="task.title"
           :description="task.description"
-        ></LIstItem>
+        >
+          <svg
+            @click="deleteTask(task.id)"
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            viewBox="0 0 24 24"
+          >
+            <!-- Icon from Material Symbols by Google - https://github.com/google/material-design-icons/blob/master/LICENSE -->
+            <path
+              fill="currentColor"
+              d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zM17 6H7v13h10zM9 17h2V8H9zm4 0h2V8h-2zM7 6v13z"
+            />
+          </svg>
+        </LIstItem>
       </section>
       <button
         class="bg-[#2f6f4f] z-10 fixed top-[90%] left-3 text-white rounded-md py-3 px-3"
         @click="() => dialog?.showModal()"
-        title
       >
         add task
       </button>

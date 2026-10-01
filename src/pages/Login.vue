@@ -18,7 +18,14 @@ async function sendLoginData() {
     }),
   })
     .then((j) => j.json())
-    .then((d) => localStorage.setItem("jwt", JSON.parse(d).token))
+    .then((d) => {
+      console.log(JSON.parse(d).token);
+      if (JSON.parse(d).loggedin === true) {
+        localStorage.setItem("jwt", JSON.parse(d).token);
+      } else {
+        return d.loggedin;
+      }
+    })
     .then(router.push("/"))
     .catch((err) => err);
   location.reload();
@@ -69,6 +76,7 @@ async function sendLoginData() {
             type="password"
             name="passwd"
             id=""
+            result
           />
         </div>
         <button
