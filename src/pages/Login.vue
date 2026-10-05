@@ -28,7 +28,7 @@ async function sendLoginData() {
     })
     .then(router.push("/"))
     .catch((err) => err);
-  location.reload();
+  // location.reload();
 }
 </script>
 
