@@ -81,7 +81,9 @@ onBeforeMount(async () => {
       please login to view your tasks
     </p>
     <section class="grid relative content-start" v-else>
-      <section class="grid grid-cols-2 w-screen gap-3 row-auto">
+      <section
+        class="grid max-md:grid-cols-1 grid-cols-2 w-screen gap-3 row-auto"
+      >
         <LIstItem
           v-for="task in todos"
           :id="task.id"
@@ -109,23 +111,26 @@ onBeforeMount(async () => {
       >
         add task
       </button>
-      <dialog class="left-1/3 top-1/3" ref="taskAddDialog">
+      <dialog
+        class="left-1/3 top-1/3 max-md:top-1/5 max-md:left-1/6"
+        ref="taskAddDialog"
+      >
         <div
-          class="grid justify-center text-center p-4 bg-[#f6f5f2] h-[45vh] w-[33vw] rounded-md"
+          class="grid justify-center text-center p-4 bg-[#f6f5f2] h-[45vh] w-[33vw] max-md:w-[66vw] max-md:h-[55vh] rounded-md"
         >
           <h1 class="text-2xl font-bold">add a task</h1>
           <label for="title">enter task title</label>
           <input
             ref="title"
             name="title"
-            class="h-10 justify-self-center"
+            class="h-10 justify-self-center max-md:w-[50vw]"
             type="text"
           />
           <label for="description">enter task title</label>
           <textarea
             ref="desc"
             name="description"
-            class="h-10 justify-self-center"
+            class="h-10 justify-self-center max-md:w-[50vw] max-md:h-28"
             type="text"
           />
           <button @click="sendTask">send task</button>

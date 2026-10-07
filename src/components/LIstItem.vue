@@ -59,23 +59,26 @@ async function sendTaskData() {
           d="M3 21v-4.25L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.438.65T21 6.4q0 .4-.137.763t-.438.662L7.25 21zM17.6 7.8L19 6.4L17.6 5l-1.4 1.4z"
         />
       </svg>
-      <dialog class="left-1/3 top-1/3" ref="dialog">
+      <dialog
+        class="left-1/3 top-1/3 max-md:top-1/5 max-md:left-1/6"
+        ref="dialog"
+      >
         <div
-          class="grid justify-center text-center p-4 bg-[#f6f5f2] h-[45vh] w-[33vw] rounded-md"
+          class="grid justify-center text-center p-4 bg-[#f6f5f2] h-[45vh] w-[33vw] max-md:w-[66vw] max-md:h-[55vh] rounded-md"
         >
           <h1 class="text-2xl font-bold">add a task</h1>
           <label for="title">enter task title</label>
           <input
             ref="title"
             name="title"
-            class="h-10 justify-self-center"
+            class="h-10 justify-self-center max-md:w-[50vw]"
             type="text"
           />
           <label for="description">enter task title</label>
           <textarea
             ref="desc"
             name="description"
-            class="h-10 justify-self-center"
+            class="h-10 justify-self-center max-md:w-[50vw] max-md:h-28"
             type="text"
           />
           <button
