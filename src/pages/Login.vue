@@ -1,39 +1,62 @@
 <script setup>
-import { useTemplateRef } from "vue";
+import { useTemplateRef, ref, computed } from "vue";
 import { router } from "../routes";
 
 const name = useTemplateRef("username");
 const pass = useTemplateRef("password");
+
+const status = ref("idle");
+const errorMessage = ref(null);
+
+const isLoading = computed(() => status.value === "loading");
+const isDone = computed(
+  () => status.value === "success" || status.value === "error",
+);
 async function sendLoginData() {
-  const data = await fetch("http://localhost:3000/login", {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "http://localhost:5173",
-    },
-    body: JSON.stringify({
-      username: name.value.value,
-      passwd: pass.value.value,
-    }),
-  })
-    .then((j) => j.json())
-    .then((d) => {
-      console.log(JSON.parse(d).token);
-      if (JSON.parse(d).loggedin === true) {
-        localStorage.setItem("jwt", JSON.parse(d).token);
-      } else {
-        return d.loggedin;
-      }
-    })
-    .then(router.push("/"))
-    .catch((err) => err);
-  // location.reload();
+  status.value = "loading";
+  errorMessage.value = null;
+
+  try {
+    const res = await fetch("http://localhost:3000/login", {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: name.value.value,
+        passwd: pass.value.value,
+      }),
+    });
+
+    if (!res.ok) {
+      throw new Error(`Request failed with status ${res.status}`);
+    }
+
+    let data = await res.json();
+
+    if (typeof data === "string") data = JSON.parse(data);
+
+    if (!data.loggedin) {
+      throw new Error("Invalid username or password");
+    }
+
+    localStorage.setItem("jwt", data.token);
+    status.value = "success";
+    await router.push("/");
+  } catch (err) {
+    status.value = "error";
+    errorMessage.value = err.message;
+  }
 }
 </script>
 
 <template>
   <main class="flex max-md:grid">
+    <p
+      class="absolute top-4 left-1/2 bg-green-600 rounded-md p-4 text-white"
+      v-if="isLoading"
+    >
+      loading...
+    </p>
     <section
       class="md:w-2/5 max-md:h-[40vh] h-screen grid content-evenly justify-center text-white bg-[#17161a]"
     >
