@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTemplateRef, ref, onBeforeMount } from "vue";
+import { useTemplateRef, ref, onBeforeMount, computed } from "vue";
 import NavBar from "../components/NavBar.vue";
 import LIstItem from "../components/LIstItem.vue";
 
@@ -11,41 +11,65 @@ const isLoggedIn = localStorage.getItem("jwt") !== null ? true : false;
 
 const todos = ref([]);
 
+const loadStatus = ref("idle");
+const isError = ref(false);
+const errorValue = ref(null);
+
 async function grabTasks() {
   if (isLoggedIn) {
-    const request = await fetch("http://localhost:3000/todos", {
+    loadStatus.value = "loading";
+    isError.value = false;
+    errorValue.value = null;
+    try {
+      const request = await fetch("http://localhost:3000/todos", {
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authentication: `Bearer ${localStorage.getItem("jwt")}`,
+        },
+      });
+      if (!request.ok) {
+        throw new Error(`Error: server responded with: ${request.status}`);
+      }
+
+      const data = await request.json();
+      todos.value = data.todos;
+      loadStatus.value = "done";
+    } catch (error) {
+      isError.value = true;
+      errorValue.value = error.message;
+    }
+  }
+}
+
+const deleteLoading = ref("idle");
+
+async function deleteTask(id) {
+  deleteLoading.value = "loading";
+  isError.value = false;
+  errorValue.value = null;
+  try {
+    const res = await fetch("http://localhost:3000/delete_todo", {
+      method: "POST",
       credentials: "include",
       headers: {
         "Content-Type": "application/json",
         Authentication: `Bearer ${localStorage.getItem("jwt")}`,
       },
-    })
-      .then((j) => j.json())
-      .then((d) => d)
-      .catch((err) => err);
-    console.log(request);
-    todos.value = request.todos;
-  } else {
-    return 0;
-  }
-}
+      body: JSON.stringify({
+        taskId: id,
+      }),
+    });
+    if (!res.ok) {
+      throw new Error(`Error: server responded with: ${res.status}`);
+    }
 
-async function deleteTask(id) {
-  await fetch("http://localhost:3000/delete_todo", {
-    method: "POST",
-    credentials: "include",
-    headers: {
-      "Content-Type": "application/json",
-      Authentication: `Bearer ${localStorage.getItem("jwt")}`,
-    },
-    body: JSON.stringify({
-      taskId: id,
-    }),
-  })
-    .then((d) => d.json())
-    .then((d) => d)
-    .catch((err) => console.log(err));
-  location.reload();
+    await grabTasks();
+    deleteLoading.value = "done";
+  } catch (error) {
+    isError.value = true;
+    errorValue.value = error.message;
+  }
 }
 
 async function sendTask() {
@@ -70,7 +94,6 @@ async function sendTask() {
 
 onBeforeMount(async () => {
   await grabTasks();
-  console.log(todos.value);
 });
 </script>
 
@@ -81,7 +104,20 @@ onBeforeMount(async () => {
       please login to view your tasks
     </p>
     <section class="grid relative content-start" v-else>
+      <p
+        v-if="loadStatus === 'loading' || deleteLoading === 'loading'"
+        class="self-center justify-self-center"
+      >
+        loading...
+      </p>
+      <p class="self-center justify-self-center" v-if="isError === true">
+        {{ errorValue }}
+      </p>
       <section
+        v-if="
+          loadStatus === 'done' ||
+          (deleteLoading === 'done' && isError === false)
+        "
         class="grid max-md:grid-cols-1 grid-cols-2 w-screen gap-3 row-auto"
       >
         <LIstItem
