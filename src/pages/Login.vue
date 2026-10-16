@@ -28,21 +28,18 @@ async function sendLoginData() {
     });
 
     if (!res.ok) {
-      throw new Error(`Request failed with status ${res.status}`);
+      throw new Error(`invalid username or password, please try again`);
     }
 
     let data = await res.json();
 
     if (typeof data === "string") data = JSON.parse(data);
 
-    if (!data.loggedin) {
-      throw new Error("Invalid username or password");
-    }
-
     localStorage.setItem("jwt", data.token);
     status.value = "success";
     await router.push("/");
   } catch (err) {
+    console.log(err);
     status.value = "error";
     errorMessage.value = err.message;
   }
@@ -51,6 +48,12 @@ async function sendLoginData() {
 
 <template>
   <main class="flex max-md:grid">
+    <p
+      class="absolute top-4 left-1/2 bg-red-600 rounded-md p-4 text-white"
+      v-if="isDone && status === 'error'"
+    >
+      {{ errorMessage }}
+    </p>
     <p
       class="absolute top-4 left-1/2 bg-green-600 rounded-md p-4 text-white"
       v-if="isLoading"
