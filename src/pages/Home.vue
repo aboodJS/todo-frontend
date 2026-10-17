@@ -73,6 +73,7 @@ async function deleteTask(id) {
 }
 
 async function sendTask() {
+  loadStatus.value = "loading";
   const request = await fetch("http://localhost:3000/todos", {
     method: "POST",
     credentials: "include",
@@ -89,6 +90,7 @@ async function sendTask() {
     .then((d) => d)
     .catch((err) => err);
   console.log(request);
+  loadStatus.value = "done";
   location.reload();
 }
 
