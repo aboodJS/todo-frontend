@@ -29,7 +29,9 @@ async function grabTasks() {
         },
       });
       if (!request.ok) {
-        throw new Error(`Error: server responded with: ${request.status}`);
+        throw new Error(
+          `sorry, something went wrong, check your internet connection or try again later`,
+        );
       }
 
       const data = await request.json();
@@ -61,7 +63,9 @@ async function deleteTask(id) {
       }),
     });
     if (!res.ok) {
-      throw new Error(`Error: server responded with: ${res.status}`);
+      throw new Error(
+        `sorry, something went wrong, check your internet connection or try again later`,
+      );
     }
 
     await grabTasks();
@@ -74,6 +78,8 @@ async function deleteTask(id) {
 
 async function sendTask() {
   loadStatus.value = "loading";
+  isError.value = false;
+  errorValue.value = null;
   const request = await fetch("http://localhost:3000/todos", {
     method: "POST",
     credentials: "include",
