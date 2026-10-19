@@ -84,6 +84,7 @@ async function submitForm(e) {
             >USERNAME</label
           >
           <input
+            required
             class="bg-[#ffffff] p-1 border rounded-sm border-[#e5e7eb] outline-0 focus:outline-[#cad1c5]"
             type="text"
             name="username"
@@ -94,6 +95,7 @@ async function submitForm(e) {
             >EMAIL</label
           >
           <input
+            required
             class="bg-[#ffffff] p-1 border rounded-sm border-[#e5e7eb] outline-0 focus:outline-[#cad1c5]"
             type="email"
             name="email"
@@ -104,6 +106,7 @@ async function submitForm(e) {
             >PASSWORD</label
           >
           <input
+            required
             class="bg-[#ffffff] p-1 border rounded-sm border-[#e5e7eb] outline-0 focus:outline-[#cad1c5]"
             type="password"
             name="passwd"
@@ -116,6 +119,7 @@ async function submitForm(e) {
             >CONFIRM PASSWORD</label
           >
           <input
+            required
             class="bg-[#ffffff] p-1 border rounded-sm border-[#e5e7eb] outline-0 focus:outline-[#cad1c5]"
             type="password"
             name="confirmPasswd"
@@ -128,7 +132,7 @@ async function submitForm(e) {
           value="Sign up"
         />
         <p class="text-center">
-          already have an account? <RouterLink to="/">Sign in</RouterLink>
+          already have an account? <RouterLink to="/login">Sign in</RouterLink>
         </p>
       </form>
     </section>

@@ -86,6 +86,7 @@ async function sendLoginData() {
             >USERNAME</label
           >
           <input
+            required
             ref="username"
             class="bg-[#ffffff] p-1 border rounded-sm border-[#e5e7eb] outline-0 focus:outline-[#cad1c5]"
             type="text"
@@ -97,6 +98,7 @@ async function sendLoginData() {
             >PASSWORD</label
           >
           <input
+            required
             ref="password"
             class="bg-[#ffffff] p-1 border rounded-sm border-[#e5e7eb] outline-0 focus:outline-[#cad1c5]"
             type="password"

@@ -114,11 +114,14 @@ onBeforeMount(async () => {
     <section class="grid relative content-start" v-else>
       <p
         v-if="loadStatus === 'loading' || deleteLoading === 'loading'"
-        class="self-center justify-self-center"
+        class="self-center justify-self-center absolute top-4 left-1/2 z-10 bg-green-600 rounded-md p-4 text-white"
       >
         loading...
       </p>
-      <p class="self-center justify-self-center" v-if="isError === true">
+      <p
+        class="self-center justify-self-center absolute top-4 left-1/2 z-10 bg-red-600 rounded-md p-4 text-white"
+        v-if="isError === true"
+      >
         {{ errorValue }}
       </p>
       <section
@@ -156,32 +159,36 @@ onBeforeMount(async () => {
         add task
       </button>
       <dialog
-        class="left-1/3 top-1/3 max-md:top-1/5 max-md:left-1/6"
+        class="left-1/3 top-1/4 max-md:top-1/5 max-md:left-1/6"
         ref="taskAddDialog"
       >
         <div
-          class="grid justify-center text-center p-4 bg-[#f6f5f2] h-[45vh] w-[33vw] max-md:w-[66vw] max-md:h-[55vh] rounded-md"
+          class="grid justify-center text-center p-4 bg-[#f6f5f2] overflow-hidden h-[57vh] w-[33vw] max-md:w-[66vw] max-md:h-[55vh] rounded-md"
         >
           <h1 class="text-2xl font-bold">add a task</h1>
           <label for="title">enter task title</label>
           <input
+            required
             ref="title"
             name="title"
-            class="h-10 justify-self-center max-md:w-[50vw]"
+            class="h-10 justify-self-center rounded-sm max-md:w-[50vw] bg-gray-200"
             type="text"
           />
           <label for="description">enter task title</label>
           <textarea
+            required
             ref="desc"
             name="description"
-            class="h-10 justify-self-center max-md:w-[50vw] max-md:h-28"
+            class="h-38 justify-self-center max-md:w-[50vw] max-md:h-28 bg-gray-200"
             type="text"
           />
-          <button @click="sendTask">send task</button>
+          <button class="bg-green-500 rounded-t-sm" @click="sendTask">
+            send task
+          </button>
           <button
+            class="bg-black rounded-b-sm text-white"
             @click="
               async () => {
-                console.log(await grabTasks());
                 dialog?.close();
               }
             "
