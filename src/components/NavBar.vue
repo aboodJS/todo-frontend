@@ -9,17 +9,16 @@ function signout() {
 
 <template>
   <nav
-    class="flex h-[10vh] w-screen z-10 items-center justify-between sticky mb-2 top-0 text-white bg-black text-2xl"
+    class="flex h-[10vh] w-screen z-10 items-center justify-between sticky top-0 text-white px-3"
+    style="background: var(--color-ink)"
   >
-    <h3 class="font-extrabold px-3">notes</h3>
-    <div v-if="isLoggedIn === false" class="flex px-3 gap-3">
+    <h3 class="font-extrabold text-2xl">notes</h3>
+    <div v-if="isLoggedIn === false" class="flex gap-3 text-lg">
       <RouterLink to="/login"><p class="hover:underline">login</p></RouterLink>
-      <RouterLink to="/signup"
-        ><p class="hover:underline">signup</p></RouterLink
-      >
+      <RouterLink to="/signup"><p class="hover:underline">signup</p></RouterLink>
     </div>
     <div v-else>
-      <button @click="signout">Signout</button>
+      <button class="text-lg hover:underline" @click="signout">Signout</button>
     </div>
   </nav>
 </template>

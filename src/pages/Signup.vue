@@ -42,34 +42,35 @@ async function submitForm(e) {
 </script>
 
 <template>
-  <main class="flex max-md:grid">
-    <p
-      class="absolute top-4 left-1/2 bg-red-600 rounded-md p-4 text-white"
-      v-if="isLoading === false && isError === true"
-    >
+  <main class="page-split">
+    <p class="toast toast-error" v-if="isLoading === false && isError === true">
       {{ errorValue }}
     </p>
+    <p class="toast toast-success" v-if="isLoading">loading...</p>
     <p
-      class="absolute top-4 left-1/2 bg-green-600 rounded-md p-4 text-white"
-      v-if="isLoading"
+      @click="() => router.back()"
+      class="text-white self-start absolute p-3 text-2xl cursor-pointer hover:underline"
     >
-      loading...
+      back
     </p>
     <section
-      class="md:w-2/5 max-md:h-[40vh] h-screen grid content-evenly justify-center text-white bg-[#17161a]"
+      class="panel-dark md:w-2/5 max-md:h-[40vh] h-screen grid content-evenly justify-center"
     >
       <div class="grid">
         <h1 class="font-extrabold text-3xl w-3/4 justify-self-center">
           Your tasks, exactly where you left them.
         </h1>
-        <p class="text-[#fff9] w-3/4 justify-self-center">
+        <p
+          class="w-3/4 justify-self-center"
+          style="color: var(--color-hero-subtle)"
+        >
           Sign in to pick up your saved list — everything stays in one place,
           ordered by what matters next.
         </p>
       </div>
     </section>
     <section
-      class="md:w-3/5 max-md:h-[60vh] h-screen grid content-evenly justify-center bg-[#f6f5f2]"
+      class="panel-light md:w-3/5 max-md:h-[60vh] h-screen grid content-evenly justify-center"
     >
       <form
         @submit.prevent="submitForm"
@@ -77,37 +78,21 @@ async function submitForm(e) {
       >
         <div class="grid">
           <h3 class="text-lg font-bold">Sign up</h3>
-          <p class="text-[#79756d]">Welcome back. Let’s see what’s open.</p>
+          <p class="text-muted">Welcome back. Let’s see what’s open.</p>
         </div>
         <div class="grid">
-          <label class="text-[#79756d] text-xs font-bold" for="username"
-            >USERNAME</label
-          >
-          <input
-            required
-            class="bg-[#ffffff] p-1 border rounded-sm border-[#e5e7eb] outline-0 focus:outline-[#cad1c5]"
-            type="text"
-            name="username"
-          />
+          <label class="form-label" for="username">USERNAME</label>
+          <input required class="form-input" type="text" name="username" />
         </div>
         <div class="grid">
-          <label class="text-[#79756d] text-xs font-bold" for="email"
-            >EMAIL</label
-          >
-          <input
-            required
-            class="bg-[#ffffff] p-1 border rounded-sm border-[#e5e7eb] outline-0 focus:outline-[#cad1c5]"
-            type="email"
-            name="email"
-          />
+          <label class="form-label" for="email">EMAIL</label>
+          <input required class="form-input" type="email" name="email" />
         </div>
         <div class="grid">
-          <label class="text-[#79756d] text-xs font-bold" for="passwd"
-            >PASSWORD</label
-          >
+          <label class="form-label" for="passwd">PASSWORD</label>
           <input
             required
-            class="bg-[#ffffff] p-1 border rounded-sm border-[#e5e7eb] outline-0 focus:outline-[#cad1c5]"
+            class="form-input"
             type="password"
             name="passwd"
             id=""
@@ -115,22 +100,16 @@ async function submitForm(e) {
         </div>
 
         <div class="grid">
-          <label class="text-[#79756d] text-xs font-bold" for="confirmPasswd"
-            >CONFIRM PASSWORD</label
-          >
+          <label class="form-label" for="confirmPasswd">CONFIRM PASSWORD</label>
           <input
             required
-            class="bg-[#ffffff] p-1 border rounded-sm border-[#e5e7eb] outline-0 focus:outline-[#cad1c5]"
+            class="form-input"
             type="password"
             name="confirmPasswd"
             id=""
           />
         </div>
-        <input
-          class="bg-[#2f6f4f] text-white rounded-md py-3"
-          type="submit"
-          value="Sign up"
-        />
+        <input class="btn-primary" type="submit" value="Sign up" />
         <p class="text-center">
           already have an account? <RouterLink to="/login">Sign in</RouterLink>
         </p>

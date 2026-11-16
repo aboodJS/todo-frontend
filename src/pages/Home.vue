@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTemplateRef, ref, onBeforeMount, computed } from "vue";
+import { useTemplateRef, ref, onBeforeMount } from "vue";
 import NavBar from "../components/NavBar.vue";
 import LIstItem from "../components/LIstItem.vue";
 
@@ -107,21 +107,21 @@ onBeforeMount(async () => {
 
 <template>
   <NavBar></NavBar>
-  <main class="h-screen grid bg-[#f6f5f2]">
-    <p class="self-center justify-self-center" v-if="isLoggedIn === false">
+  <main class="min-h-screen grid panel-light p-4">
+    <p
+      class="self-center justify-self-center text-muted"
+      v-if="isLoggedIn === false"
+    >
       please login to view your tasks
     </p>
-    <section class="grid relative content-start" v-else>
+    <section class="grid relative content-start gap-4" v-else>
       <p
         v-if="loadStatus === 'loading' || deleteLoading === 'loading'"
-        class="self-center justify-self-center absolute top-4 left-1/2 z-10 bg-green-600 rounded-md p-4 text-white"
+        class="toast toast-success"
       >
         loading...
       </p>
-      <p
-        class="self-center justify-self-center absolute top-4 left-1/2 z-10 bg-red-600 rounded-md p-4 text-white"
-        v-if="isError === true"
-      >
+      <p class="toast toast-error" v-if="isError === true">
         {{ errorValue }}
       </p>
       <section
@@ -129,7 +129,7 @@ onBeforeMount(async () => {
           loadStatus === 'done' ||
           (deleteLoading === 'done' && isError === false)
         "
-        class="grid max-md:grid-cols-1 grid-cols-2 w-screen gap-3 row-auto"
+        class="grid max-md:grid-cols-1 grid-cols-2 w-full gap-3 row-auto"
       >
         <LIstItem
           v-for="task in todos"
@@ -153,48 +153,37 @@ onBeforeMount(async () => {
         </LIstItem>
       </section>
       <button
-        class="bg-[#2f6f4f] z-10 fixed top-[90%] left-3 text-white rounded-md py-3 px-3"
+        class="btn-primary fixed bottom-6 left-6 z-10"
         @click="() => dialog?.showModal()"
       >
         add task
       </button>
       <dialog
-        class="left-1/3 top-1/4 max-md:top-1/5 max-md:left-1/6"
+        class="app-dialog left-1/3 top-1/4 max-md:top-1/5 max-md:left-1/6"
         ref="taskAddDialog"
       >
         <div
-          class="grid justify-center text-center p-4 bg-[#f6f5f2] overflow-hidden h-[57vh] w-[33vw] max-md:w-[66vw] max-md:h-[55vh] rounded-md"
+          class="dialog-panel h-[57vh] w-[33vw] max-md:w-[66vw] max-md:h-[55vh]"
         >
           <h1 class="text-2xl font-bold">add a task</h1>
-          <label for="title">enter task title</label>
+          <label class="form-label" for="title">TASK TITLE</label>
           <input
             required
             ref="title"
             name="title"
-            class="h-10 justify-self-center rounded-sm max-md:w-[50vw] bg-gray-200"
+            class="form-input h-10 justify-self-center max-md:w-[50vw]"
             type="text"
           />
-          <label for="description">enter task title</label>
+          <label class="form-label" for="description">TASK DESCRIPTION</label>
           <textarea
             required
             ref="desc"
             name="description"
-            class="h-38 justify-self-center max-md:w-[50vw] max-md:h-28 bg-gray-200"
+            class="form-input h-38 justify-self-center max-md:w-[50vw] max-md:h-28"
             type="text"
           />
-          <button class="bg-green-500 rounded-t-sm" @click="sendTask">
-            send task
-          </button>
-          <button
-            class="bg-black rounded-b-sm text-white"
-            @click="
-              async () => {
-                dialog?.close();
-              }
-            "
-          >
-            cancel
-          </button>
+          <button class="btn-primary" @click="sendTask">send task</button>
+          <button class="btn-secondary" @click="dialog?.close()">cancel</button>
         </div>
       </dialog>
     </section>
